@@ -1,0 +1,213 @@
+/* Reset & global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lora', serif;
+}
+
+body {
+  background: #f7f8fa;
+  
+}
+
+/* Login Page */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 50px 70px;
+}
+
+.university-name {
+  font-size: 70px;
+ 
+  color: #0e0d0d;
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.login-container h2 {
+  font-size: 28px;
+  color: #0e0d0d;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.login-container p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+  text-align: center;
+}
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(241, 239, 239, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 40px 35px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.input-group { margin-bottom: 18px; }
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+.input-group input:focus {
+  border-color: #ff6600c4;
+  box-shadow: 0 0 4px rgba(12, 12, 12, 0.2);
+}
+.btn {
+  width: 100%;
+  background: #ff6600c4;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn:hover { background: #2a5298; }
+
+.links { margin-top: 10px; text-align: right; }
+.links a {
+  font-size: 13px;
+  color: #0e0d0d;
+  text-decoration: none;
+}
+.links a:hover { text-decoration: underline; }
+
+.right-side {
+  flex: 1;
+  background-image: url("https://media.istockphoto.com/id/172469072/photo/christ-churchs-tom-tower-and-college-oxford-university-united-kingdom.jpg?s=612x612&w=0&k=20&c=xr6V1ci4P_hBJa5_KGJ1XiqF-THXY71M-f9AdUEemA0=");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.right-side::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Home Page Sidebar */
+#home-page {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #ff6600c4;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+
+.sidebar-logo a {
+  text-decoration: none;
+  color: #0e0d0d;
+  font-size: 24px;
+  font-weight: 400;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sidebar-logo i { margin-right: 10px; }
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-links a {
+  color: #0e0d0d;
+  text-decoration: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  transition: 0.3s;
+  font-weight: 300;
+}
+
+.sidebar-links a:hover {
+  background-color: #f86401;
+}
+
+/* Main content area */
+.home-content {
+  flex: 1;
+  padding: 50px;
+  padding-bottom: 80px; /* Space for footer */
+}
+
+.home-content h1 {
+  font-size: 48px;
+  color: #0e0d0d;
+  margin-bottom: 20px;
+}
+
+.home-content p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Page Footer */
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 250px; /* Account for sidebar width */
+  background-color: #ffffff;
+  color: #666;
+  padding: 15px 30px;
+  text-align: right;
+  font-size: 14px;
+  border-top: 1px solid #e0e0e0;
+  z-index: 100;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container, #home-page {
+    flex-direction: column;
+  }
+
+  .left-side { height: auto; padding: 30px; }
+  .university-name { font-size: 50px; margin-bottom: 20px; }
+
+  .sidebar { width: 100%; flex-direction: row; overflow-x: auto; }
+  .sidebar-logo { margin-bottom: 0; padding: 0 10px; }
+  .sidebar-links { flex-direction: row; }
+  .sidebar-links a { padding: 12px 15px; }
+  .home-content { padding: 20px; }
+  
+  /* Adjust footer for mobile */
+  .page-footer {
+    left: 0;
+    text-align: center;
+  }
+}

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foxwin University ERP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Login Page -->
+  <div class="container" id="login-page">
+    <div class="left-side">
+      <div class="university-name">
+        Foxwin University
+      </div>
+      <div class="login-container">
+        <h2>ERP Login</h2>
+        <p>Welcome! Please login to continue.</p>
+        <form id="login-form">
+          <div class="input-group">
+            <input type="text" name="username" placeholder="Username or Email" required />
+          </div>
+          <div class="input-group">
+            <input type="password" name="password" placeholder="Password" required />
+          </div>
+          <button type="submit" class="btn">Login</button>
+          <div class="links">
+            <a href="#">Forgot Password?</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="right-side"></div>
+  </div>
+
+  <!-- Home Page with Sidebar -->
+  <div id="home-page" style="display:none;">
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+      </div>
+      <nav class="sidebar-links">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Profile</a>
+        <a href="#">Timetable</a>
+        <a href="#">Library</a>
+        <a href="#">Fees</a>
+      </nav>
+    </div>
+
+    <div class="home-content">
+      <h1>Welcome to Foxwin University ERP</h1>
+      <p>Use the sidebar to navigate through Dashboard, Profile, Timetable, Library, and Fees.</p>
+    </div>
+    
+    <footer class="page-footer">
+      &copy; 2025 Foxwin University. All rights reserved.
+    </footer>
+  </div>
+
+  <!-- JS to handle login -->
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const loginPage = document.getElementById('login-page');
+    const homePage = document.getElementById('home-page');
+    let currentUser = null;
+
+    loginForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = loginForm.querySelector('input[name="username"]').value;
+      const password = loginForm.querySelector('input[name="password"]').value;
+
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          currentUser = data.user;
+          loginPage.style.display = 'none';
+          homePage.style.display = 'flex';
+          loadUserProfile();
+        } else {
+          alert(data.message || 'Login failed. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Login failed. Please check if the server is running.');
+      }
+    });
+
+    async function loadUserProfile() {
+      if (!currentUser) return;
+
+      try {
+        const response = await fetch(`/api/profile/${currentUser.id}/${currentUser.user_role}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          const profileData = data.data;
+          document.querySelector('.home-content').innerHTML = `
+            <h1>Welcome ${profileData.first_name} ${profileData.last_name}</h1>
+            <div class="profile-info">
+              <p><strong>Role:</strong> ${currentUser.user_role}</p>
+              <p><strong>Department:</strong> ${profileData.department_name || 'N/A'}</p>
+              <p><strong>Email:</strong> ${profileData.email || 'N/A'}</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error);
+      }
+    }
+
+    // Add event listeners for sidebar navigation
+    document.querySelectorAll('.sidebar-links a').forEach(link => {
+      link.addEventListener('click', async function(e) {
+        e.preventDefault();
+        const section = this.textContent.toLowerCase();
+        
+        if (!currentUser) return;
+
+        try {
+          let url;
+          switch(section) {
+            case 'profile':
+              url = `/api/profile/${currentUser.id}/${currentUser.user_role}`;
+              break;
+            case 'timetable':
+              url = `/api/timetable/${currentUser.id}/${currentUser.user_role}`;
+              break;
+            case 'library':
+              url = `/api/library/${currentUser.id}`;
+              break;
+            case 'fees':
+              url = `/api/fees/${currentUser.id}`;
+              break;
+            default:
+              return;
+          }
+
+          const response = await fetch(url);
+          const data = await response.json();
+          
+          if (data.success) {
+            updateContent(section, data.data);
+          }
+        } catch (error) {
+          console.error(`Error loading ${section}:`, error);
+        }
+      });
+    });
+
+    function updateContent(section, data) {
+      const contentDiv = document.querySelector('.home-content');
+      let html = `<h2>${section.charAt(0).toUpperCase() + section.slice(1)}</h2>`;
+
+      switch(section) {
+        case 'timetable':
+          html += `<div class="timetable">
+            ${data.map(class_ => `
+              <div class="class-card">
+                <h3>${class_.subject_name}</h3>
+                <p>${class_.day_of_week}</p>
+                <p>${class_.start_time} - ${class_.end_time}</p>
+                <p>Location: ${class_.location}</p>
+                <p>Faculty: ${class_.faculty_name}</p>
+              </div>
+            `).join('')}
+          </div>`;
+          break;
+
+        case 'library':
+          html += `<div class="library-transactions">
+            ${data.map(book => `
+              <div class="book-card">
+                <h3>${book.book_title}</h3>
+                <p>Author: ${book.book_author}</p>
+                <p>Issue Date: ${book.issue_date}</p>
+                <p>Due Date: ${book.due_date}</p>
+                <p>Status: ${book.status}</p>
+              </div>
+            `).join('')}
+          </div>`;
+          break;
+
+        case 'fees':
+          html += `<div class="fees-info">
+            ${data.map(fee => `
+              <div class="fee-card">
+                <h3>${fee.fee_type}</h3>
+                <p>Amount: ₹${fee.amount}</p>
+                <p>Status: ${fee.status}</p>
+                <p>Due Date: ${fee.due_date}</p>
+                ${fee.paid_date ? `<p>Paid Date: ${fee.paid_date}</p>` : ''}
+              </div>
+            `).join('')}
+          </div>`;
+          break;
+      }
+
+      contentDiv.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
