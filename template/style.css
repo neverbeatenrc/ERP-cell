@@ -1,0 +1,153 @@
+/* Reset & global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #f7f8fa;
+}
+
+/* Container for login and image */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Left side (login area) */
+.left-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 50px 70px;
+}
+
+/* University name above login box */
+.university-name {
+  font-size: 70px;   /* bigger */
+    font-family: 'Lora', serif;
+  color: #2a5298;    /* different color */
+  margin-bottom: 30px; /* space between name and login box */
+  text-align: center;
+   letter-spacing: 1px; 
+}
+
+/* Login box */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 40px 35px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.login-container h2 {
+  font-size: 28px;
+  color: #1e3c72;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.login-container p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #1e3c72;
+  box-shadow: 0 0 4px rgba(42, 82, 152, 0.2);
+}
+
+.btn {
+  width: 100%;
+  background: #1e3c72;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #2a5298;
+}
+
+.links {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.links a {
+  font-size: 13px;
+  color: #1e3c72;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* Right side (image area) */
+.right-side {
+  flex: 1;
+  background-image: url("https://media.istockphoto.com/id/172469072/photo/christ-churchs-tom-tower-and-college-oxford-university-united-kingdom.jpg?s=612x612&w=0&k=20&c=xr6V1ci4P_hBJa5_KGJ1XiqF-THXY71M-f9AdUEemA0=");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Transparent overlay on image */
+.right-side::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+  .right-side {
+    height: 40vh;
+  }
+  .left-side {
+    height: 60vh;
+    padding: 30px;
+  }
+  .university-name {
+    font-size: 50px;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
