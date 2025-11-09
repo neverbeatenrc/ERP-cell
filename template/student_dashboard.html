@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard - Foxwin University</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="student_dashboard.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Foxwin University</span>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-section="dashboard">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-section="profile">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
+      <a href="#" class="nav-item" data-section="subjects">
+        <i class="fas fa-book"></i>
+        <span>My Subjects</span>
+      </a>
+      <a href="#" class="nav-item" data-section="marks">
+        <i class="fas fa-chart-line"></i>
+        <span>Marks</span>
+      </a>
+      <a href="#" class="nav-item" data-section="attendance">
+        <i class="fas fa-calendar-check"></i>
+        <span>Attendance</span>
+      </a>
+      <a href="#" class="nav-item" data-section="fees">
+        <i class="fas fa-receipt"></i>
+        <span>Fees</span>
+      </a>
+      <a href="#" class="nav-item" data-section="library">
+        <i class="fas fa-book-reader"></i>
+        <span>Library</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1 id="page-title">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="user-info">
+          <div class="avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="user-details">
+            <span class="user-name" id="user-name"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div class="content-section active" id="dashboard-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <div class="stat-details">
+            <h3 id="total-subjects">-</h3>
+            <p>Total Subjects</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-details">
+            <h3 id="attendance-percentage">-</h3>
+            <p>Overall Attendance</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <i class="fas fa-rupee-sign"></i>
+          </div>
+          <div class="stat-details">
+            <h3 id="pending-fees">-</h3>
+            <p>Pending Fees</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon purple">
+            <i class="fas fa-book-reader"></i>
+          </div>
+          <div class="stat-details">
+            <h3 id="library-books">-</h3>
+            <p>Books Issued</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h2><i class="fas fa-user-graduate"></i> Academic Overview</h2>
+          </div>
+          <div class="card-body" id="academic-overview">
+            <div class="overview-item">
+              <span class="label">Department:</span>
+              <span class="value" id="dept-name">-</span>
+            </div>
+            <div class="overview-item">
+              <span class="label">Current Semester:</span>
+              <span class="value" id="semester">-</span>
+            </div>
+            <div class="overview-item">
+              <span class="label">Academic Year:</span>
+              <span class="value" id="year">-</span>
+            </div>
+            <div class="overview-item">
+              <span class="label">Roll Number:</span>
+              <span class="value" id="roll-no">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h2><i class="fas fa-clock"></i> Recent Activities</h2>
+          </div>
+          <div class="card-body">
+            <div class="activity-list" id="recent-activities">
+              <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No recent activities</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Section -->
+    <div class="content-section" id="profile-section">
+      <div class="profile-container">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="profile-info-header">
+            <h2 id="profile-name">Student Name</h2>
+            <p id="profile-email">student@example.com</p>
+          </div>
+          <button class="edit-profile-btn" onclick="toggleEditMode()">
+            <i class="fas fa-edit"></i> Edit Profile
+          </button>
+        </div>
+
+        <div class="profile-content">
+          <div class="profile-section">
+            <h3><i class="fas fa-user"></i> Personal Information</h3>
+            <div class="info-grid" id="personal-info">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <h3><i class="fas fa-graduation-cap"></i> Academic Information</h3>
+            <div class="info-grid" id="academic-info">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <h3><i class="fas fa-lock"></i> Security</h3>
+            <button class="btn btn-secondary" onclick="showChangePasswordModal()">
+              <i class="fas fa-key"></i> Change Password
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subjects Section -->
+    <div class="content-section" id="subjects-section">
+      <div class="subjects-container">
+        <div class="section-header">
+          <h2><i class="fas fa-book"></i> My Subjects</h2>
+        </div>
+        <div class="subjects-grid" id="subjects-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Marks Section -->
+    <div class="content-section" id="marks-section">
+      <div class="marks-container">
+        <div class="section-header">
+          <h2><i class="fas fa-chart-line"></i> Academic Performance</h2>
+          <select class="filter-select" id="semester-filter">
+            <option value="all">All Semesters</option>
+          </select>
+        </div>
+        <div class="marks-table-container">
+          <table class="data-table" id="marks-table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Theory</th>
+                <th>Practical</th>
+                <th>Total</th>
+                <th>Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Section -->
+    <div class="content-section" id="attendance-section">
+      <div class="attendance-container">
+        <div class="section-header">
+          <h2><i class="fas fa-calendar-check"></i> Attendance Records</h2>
+        </div>
+        <div class="attendance-grid" id="attendance-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Fees Section -->
+    <div class="content-section" id="fees-section">
+      <div class="fees-container">
+        <div class="section-header">
+          <h2><i class="fas fa-receipt"></i> Fee Details</h2>
+        </div>
+        
+        <div class="fee-breakdown" id="fee-breakdown">
+          <div class="fee-summary">
+            <div class="fee-summary-item">
+              <span class="label">Total Fees:</span>
+              <span class="value total" id="total-fees">₹0</span>
+            </div>
+            <div class="fee-summary-item">
+              <span class="label">Paid Amount:</span>
+              <span class="value paid" id="paid-amount">₹0</span>
+            </div>
+            <div class="fee-summary-item">
+              <span class="label">Pending Amount:</span>
+              <span class="value pending" id="pending-amount">₹0</span>
+            </div>
+          </div>
+
+          <div class="fee-details-grid" id="fee-details">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Library Section -->
+    <div class="content-section" id="library-section">
+      <div class="library-container">
+        <div class="section-header">
+          <h2><i class="fas fa-book-reader"></i> Library Books</h2>
+        </div>
+        <div class="library-table-container">
+          <table class="data-table" id="library-table">
+            <thead>
+              <tr>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal" id="change-password-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-key"></i> Change Password</h3>
+        <button class="close-btn" onclick="closeChangePasswordModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="change-password-form">
+          <div class="form-group">
+            <label>Current Password</label>
+            <input type="password" name="current_password" required>
+          </div>
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" name="new_password" required>
+          </div>
+          <div class="form-group">
+            <label>Confirm New Password</label>
+            <input type="password" name="confirm_password" required>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeChangePasswordModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Change Password</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attendance Breakdown Modal -->
+  <div class="modal" id="attendance-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-calendar-check"></i> Attendance Details - <span id="modal-subject-name"></span></h3>
+        <button class="close-btn" onclick="closeAttendanceModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="attendance-breakdown-list" class="breakdown-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    &copy; 2025 Foxwin University. All rights reserved.
+  </footer>
+
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-modal" class="modal">
+    <div class="modal-content logout-modal-content">
+      <div class="modal-header logout-modal-header">
+        <h3><i class="fas fa-sign-out-alt"></i> Confirm Logout</h3>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeLogoutModal()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="btn btn-primary" onclick="confirmLogout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="student_dashboard.js"></script>
+</body>
+</html>

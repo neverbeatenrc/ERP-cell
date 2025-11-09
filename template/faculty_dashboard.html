@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard - ERP Cell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='faculty_dashboard.css') }}">
+</head>
+<body>
+    <div class="faculty-dashboard">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2><i class="fas fa-graduation-cap"></i> Faculty Portal</h2>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-section="classes">
+                <i class="fas fa-chalkboard"></i>
+                <span>My Classes</span>
+            </a>
+            <a href="#" class="nav-item" data-section="attendance">
+                <i class="fas fa-calendar-check"></i>
+                <span>Mark Attendance</span>
+            </a>
+            <a href="#" class="nav-item" data-section="marks">
+                <i class="fas fa-pen-to-square"></i>
+                <span>Enter Marks</span>
+            </a>
+            <a href="#" class="nav-item" data-section="timetable">
+                <i class="fas fa-clock"></i>
+                <span>My Timetable</span>
+            </a>
+            <a href="#" class="nav-item" data-section="students">
+                <i class="fas fa-user-graduate"></i>
+                <span>Student List</span>
+            </a>
+            <a href="/admin" class="nav-item admin-link">
+                <i class="fas fa-user-shield"></i>
+                <span>Admin Panel</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="showLogoutModal()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="top-bar">
+            <div class="page-title">
+                <h1 id="section-title">Dashboard</h1>
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span id="faculty-name"></span>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-subjects">0</h3>
+                        <p>My Subjects</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-students-taught">0</h3>
+                        <p>Students Taught</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="classes-today">0</h3>
+                        <p>Classes Today</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="avg-attendance">0%</h3>
+                        <p>Avg Attendance</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3><i class="fas fa-clock"></i> Today's Classes</h3>
+                    <div id="today-classes" class="class-list">
+                        <!-- Classes will load here -->
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-chart-bar"></i> Recent Activities</h3>
+                    <div id="recent-activities" class="activity-list">
+                        <!-- Activities will load here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Classes Section -->
+        <section id="classes-section" class="content-section">
+            <div class="section-header">
+                <h2>My Classes</h2>
+                <div class="filters">
+                    <select id="dept-filter" class="filter-select">
+                        <option value="">All Departments</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th>Department</th>
+                            <th>Credits</th>
+                            <th>Students</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classes-table-body">
+                        <!-- Classes will load here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Attendance Section -->
+        <section id="attendance-section" class="content-section">
+            <div class="section-header">
+                <h2>Mark Attendance</h2>
+                <button class="btn-primary" id="save-attendance-btn">
+                    <i class="fas fa-save"></i> Save Attendance
+                </button>
+            </div>
+            
+            <div class="attendance-controls">
+                <div class="form-group">
+                    <label>Select Subject</label>
+                    <select id="attendance-subject" class="form-control">
+                        <option value="">Choose a subject...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="attendance-date" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn-secondary" id="load-students-btn">
+                        <i class="fas fa-users"></i> Load Students
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn-secondary" id="mark-all-present-btn">
+                        <i class="fas fa-check-double"></i> Mark All Present
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Student Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-table-body">
+                        <tr><td colspan="3" class="placeholder">Select a subject and load students</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Marks Entry Section -->
+        <section id="marks-section" class="content-section">
+            <div class="section-header">
+                <h2>Enter Marks</h2>
+                <button class="btn-primary" id="save-marks-btn">
+                    <i class="fas fa-save"></i> Save Marks
+                </button>
+            </div>
+            
+            <div class="marks-controls">
+                <div class="form-group">
+                    <label>Select Subject</label>
+                    <select id="marks-subject" class="form-control">
+                        <option value="">Choose a subject...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Exam Type</label>
+                    <select id="exam-type" class="form-control">
+                        <option value="Theory">Theory</option>
+                        <option value="Practical">Practical</option>
+                        <option value="Internal">Internal Assessment</option>
+                        <option value="Final">Final Exam</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn-secondary" id="load-marks-students-btn">
+                        <i class="fas fa-users"></i> Load Students
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Student Name</th>
+                            <th>Theory Marks (100)</th>
+                            <th>Practical Marks (100)</th>
+                            <th>Total</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marks-table-body">
+                        <tr><td colspan="6" class="placeholder">Select a subject and load students</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Timetable Section -->
+        <section id="timetable-section" class="content-section">
+            <div class="section-header">
+                <h2>My Timetable</h2>
+            </div>
+            
+            <div class="timetable-container">
+                <table class="timetable-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-body">
+                        <!-- Timetable will load here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Students List Section -->
+        <section id="students-section" class="content-section">
+            <div class="section-header">
+                <h2>Student List</h2>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="student-search" placeholder="Search students...">
+                </div>
+            </div>
+            
+            <div class="filters">
+                <select id="student-dept-filter" class="filter-select">
+                    <option value="">All Departments</option>
+                </select>
+                <select id="student-subject-filter" class="filter-select">
+                    <option value="">All Subjects</option>
+                </select>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Attendance %</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-table-body">
+                        <!-- Students will load here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    
+    <footer class="page-footer">
+        &copy; 2025 Foxwin University. All rights reserved.
+    </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="modal">
+        <div class="modal-content logout-modal-content">
+            <div class="modal-header logout-modal-header">
+                <h3><i class="fas fa-sign-out-alt"></i> Confirm Logout</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeLogoutModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn-primary" onclick="confirmLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='faculty_dashboard.js') }}"></script>
+</body>
+</html>

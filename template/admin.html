@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ERP Cell</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-user-shield"></i>
+                <h2>Admin Panel</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#students" class="nav-link" data-section="students">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Manage Students</span>
+                </a>
+                <a href="#faculty" class="nav-link" data-section="faculty">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Manage Faculty</span>
+                </a>
+                <a href="#courses" class="nav-link" data-section="courses">
+                    <i class="fas fa-book"></i>
+                    <span>Manage Courses</span>
+                </a>
+                <a href="#departments" class="nav-link" data-section="departments">
+                    <i class="fas fa-building"></i>
+                    <span>Manage Departments</span>
+                </a>
+                <a href="#fees" class="nav-link" data-section="fees">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Fee Management</span>
+                </a>
+                <a href="#reports" class="nav-link" data-section="reports">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="/faculty-dashboard" class="btn-back-to-faculty">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Faculty Dashboard</span>
+                </a>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            <!-- Top Header Bar -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="admin-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="admin-name">Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-students">0</h3>
+                            <p>Total Students</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-faculty">0</h3>
+                            <p>Total Faculty</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-departments">0</h3>
+                            <p>Departments</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-fees">0</h3>
+                            <p>Pending Fees</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="recent-activities">
+                        <h3><i class="fas fa-clock"></i> Recent Activities</h3>
+                        <div id="activities-list" class="activities-list">
+                            <!-- Activities will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="showSection('students')">
+                                <i class="fas fa-user-plus"></i>
+                                Add Student
+                            </button>
+                            <button class="action-btn" onclick="showSection('faculty')">
+                                <i class="fas fa-user-plus"></i>
+                                Add Faculty
+                            </button>
+                            <button class="action-btn" onclick="showSection('departments')">
+                                <i class="fas fa-plus"></i>
+                                Add Department
+                            </button>
+                            <button class="action-btn" onclick="showSection('courses')">
+                                <i class="fas fa-book-medical"></i>
+                                Add Course
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Students Section -->
+            <section id="students" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-graduate"></i> Student Management</h2>
+                    <button class="btn-primary" onclick="openAddStudentModal()">
+                        <i class="fas fa-plus"></i> Add Student
+                    </button>
+                </div>
+                
+                <div class="table-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="student-search" placeholder="Search by name or ID...">
+                    </div>
+                    <div class="filter-box">
+                        <select id="student-department-filter">
+                            <option value="">All Departments</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="data-table">
+                    <table id="students-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Enrollment Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-tbody">
+                            <!-- Student rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Faculty Section -->
+            <section id="faculty" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chalkboard-teacher"></i> Faculty Management</h2>
+                    <button class="btn-primary" onclick="openAddFacultyModal()">
+                        <i class="fas fa-plus"></i> Add Faculty
+                    </button>
+                </div>
+                
+                <div class="table-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="faculty-search" placeholder="Search by name or code...">
+                    </div>
+                    <div class="filter-box">
+                        <select id="faculty-department-filter">
+                            <option value="">All Departments</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="data-table">
+                    <table id="faculty-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="faculty-tbody">
+                            <!-- Faculty rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Departments Section -->
+            <section id="departments" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-building"></i> Department Management</h2>
+                    <button class="btn-primary" onclick="openAddDepartmentModal()">
+                        <i class="fas fa-plus"></i> Add Department
+                    </button>
+                </div>
+                
+                <div class="data-table">
+                    <table id="departments-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Department Name</th>
+                                <th>Total Students</th>
+                                <th>Total Faculty</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="departments-tbody">
+                            <!-- Department rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Courses Section -->
+            <section id="courses" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-book"></i> Course Management</h2>
+                    <button class="btn-primary" onclick="openAddCourseModal()">
+                        <i class="fas fa-plus"></i> Add Course
+                    </button>
+                </div>
+                
+                <div class="table-controls">
+                    <div class="filter-box">
+                        <select id="course-department-filter">
+                            <option value="">All Departments</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="data-table">
+                    <table id="courses-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Subject Name</th>
+                                <th>Credits</th>
+                                <th>Department</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courses-tbody">
+                            <!-- Course rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Fees Section -->
+            <section id="fees" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-dollar-sign"></i> Fee Management</h2>
+                </div>
+                
+                <div class="table-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="fee-search" placeholder="Search by student name or ID...">
+                    </div>
+                    <div class="filter-box">
+                        <select id="fee-status-filter">
+                            <option value="">All Status</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Overdue">Overdue</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="data-table">
+                    <table id="fees-table">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Department</th>
+                                <th>Total Fee</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fees-tbody">
+                            <!-- Fee rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-alt"></i> Reports & Analytics</h2>
+                </div>
+                
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Student Performance Report</h3>
+                        <p>View detailed student performance analytics</p>
+                        <button class="btn-secondary">Generate Report</button>
+                    </div>
+                    
+                    <div class="report-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Attendance Report</h3>
+                        <p>Department-wise attendance statistics</p>
+                        <button class="btn-secondary">Generate Report</button>
+                    </div>
+                    
+                    <div class="report-card">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h3>Fee Collection Report</h3>
+                        <p>Financial summary and pending payments</p>
+                        <button class="btn-secondary">Generate Report</button>
+                    </div>
+                    
+                    <div class="report-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Faculty Report</h3>
+                        <p>Faculty workload and class assignments</p>
+                        <button class="btn-secondary">Generate Report</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal: Add/Edit Student -->
+    <div id="student-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-graduate"></i> <span id="student-modal-title">Add Student</span></h2>
+                <button class="close-btn" onclick="closeStudentModal()">&times;</button>
+            </div>
+            <form id="student-form" onsubmit="saveStudent(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" name="last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth *</label>
+                        <input type="date" name="date_of_birth" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender *</label>
+                        <select name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" name="phone_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Enrollment Date *</label>
+                        <input type="date" name="enrollment_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Username *</label>
+                        <input type="text" name="username" required>
+                    </div>
+                </div>
+                <input type="hidden" name="student_id" id="edit-student-id">
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeStudentModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add/Edit Faculty -->
+    <div id="faculty-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-chalkboard-teacher"></i> <span id="faculty-modal-title">Add Faculty</span></h2>
+                <button class="close-btn" onclick="closeFacultyModal()">&times;</button>
+            </div>
+            <form id="faculty-form" onsubmit="saveFaculty(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Faculty Code *</label>
+                        <input type="text" name="faculty_code" required>
+                    </div>
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" name="last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender *</label>
+                        <select name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Department *</label>
+                        <select name="department" id="faculty-department" required>
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" name="phone_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hire Date *</label>
+                        <input type="date" name="hire_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Username *</label>
+                        <input type="text" name="username" required>
+                    </div>
+                </div>
+                <input type="hidden" name="faculty_id" id="edit-faculty-id">
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeFacultyModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Faculty</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add/Edit Department -->
+    <div id="department-modal" class="modal">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h2><i class="fas fa-building"></i> <span id="department-modal-title">Add Department</span></h2>
+                <button class="close-btn" onclick="closeDepartmentModal()">&times;</button>
+            </div>
+            <form id="department-form" onsubmit="saveDepartment(event)">
+                <div class="form-group">
+                    <label>Department Name *</label>
+                    <input type="text" name="dept_name" required>
+                </div>
+                <input type="hidden" name="dept_id" id="edit-dept-id">
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeDepartmentModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Department</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add/Edit Course -->
+    <div id="course-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-book"></i> <span id="course-modal-title">Add Course</span></h2>
+                <button class="close-btn" onclick="closeCourseModal()">&times;</button>
+            </div>
+            <form id="course-form" onsubmit="saveCourse(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Subject Code *</label>
+                        <input type="text" name="subject_code" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject Name *</label>
+                        <input type="text" name="subject_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Credits *</label>
+                        <input type="number" step="0.5" name="credits" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Department *</label>
+                        <select name="dept_id" id="course-department" required>
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" name="subject_id" id="edit-subject-id">
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeCourseModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Course</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="modal">
+        <div class="modal-content logout-modal-content">
+            <div class="modal-header logout-modal-header">
+                <h2><i class="fas fa-sign-out-alt"></i> Confirm Logout</h2>
+            </div>
+            <div class="modal-body">
+                <p style="text-align: center; font-size: 16px; margin: 20px 0;">Are you sure you want to logout?</p>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="closeLogoutModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn-primary logout-confirm-btn" onclick="confirmLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        &copy; 2025 Foxwin University. All rights reserved.
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>

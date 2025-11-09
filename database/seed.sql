@@ -10,11 +10,12 @@ VALUES
 
 -- Faculty_Info: 
 INSERT INTO Faculty_Info (faculty_id, faculty_code, first_name, last_name, gender, department, email, phone_number, hire_date)
+VALUES
 ('1', 'FCS001', 'Dr. Emily', 'Usher', 'Female', 'Technology', 'emily.d@foxwin.edu', '555-2010', '2010-08-15'),
 ('2', 'FEE002', 'Mr. Frank', 'Miller', 'Male', 'Technology', 'frank.m@foxwin.edu', '555-2011', '2018-01-20'),
 ('3', 'FME003', 'Prof. Grace', 'Lee', 'Female', 'Finance', 'grace.l@foxwin.edu', '555-2012', '2015-05-10'),
 ('4', 'FCS004', 'Dr. Henry', 'Scott', 'Male', 'Arts', 'henry.s@foxwin.edu', '555-2013', '2020-03-01'),
-('5', 'FCS004', 'Dr. Lewis', 'Brown', 'Male', 'Arts', 'lewis.b@foxwin.edu', '555-2014', '2013-08-31');
+('5', 'FCS005', 'Dr. Lewis', 'Brown', 'Male', 'Arts', 'lewis.b@foxwin.edu', '555-2014', '2013-08-31');
 
 
 -- User_Credentials: Students 
@@ -54,14 +55,14 @@ VALUES
 -- Library_Transaction: 
 INSERT INTO Library_Transaction (student_id, book_title, book_author, book_isbn, issue_date, due_date, return_date, status)
 VALUES
-(1, 'SQL Database Design', 'J. Smith', '978-1234567890', '2025-10-25', '2025-11-25', NULL, 'Issued');
-(2, 'SQL Database Design', 'J. Smith', '978-1234567890', '2025-10-25', '2025-11-25', '2025-11-22', 'Returned');
-(2, 'Learning Python', 'M. Lutz', '978-0987654321', '2025-09-15', '2025-10-15', '2025-10-10', 'Returned');
-(4, 'Data Structures', 'A. Tanenbaum', '978-1122334455', '2025-11-01', '2025-12-01', NULL, 'Issued');
-(5, 'Operating Systems', 'W. Stallings', '978-6677889900', '2025-10-20', '2025-11-20', NULL, 'Overdue');
-(3, 'Computer Networks', 'A. S. Tanenbaum', '978-5544332211', '2025-09-10', '2025-10-10', '2025-10-05', 'Returned');
-(1, 'Database Systems', 'R. Elmasri', '978-9988776655', '2025-11-05', '2025-12-05', NULL, 'Issued');
-(4, 'Artificial Intelligence', 'S. Russell', '978-4433221100', '2025-10-15', '2025-11-15', NULL, 'Issued');
+(1, 'SQL Database Design', 'J. Smith', '978-1234567890', '2025-10-25', '2025-11-25', NULL, 'Issued'),
+(2, 'SQL Database Design', 'J. Smith', '978-1234567890', '2025-10-25', '2025-11-25', '2025-11-22', 'Returned'),
+(2, 'Learning Python', 'M. Lutz', '978-0987654321', '2025-09-15', '2025-10-15', '2025-10-10', 'Returned'),
+(4, 'Data Structures', 'A. Tanenbaum', '978-1122334455', '2025-11-01', '2025-12-01', NULL, 'Issued'),
+(5, 'Operating Systems', 'W. Stallings', '978-6677889900', '2025-10-20', '2025-11-20', NULL, 'Overdue'),
+(3, 'Computer Networks', 'A. S. Tanenbaum', '978-5544332211', '2025-09-10', '2025-10-10', '2025-10-05', 'Returned'),
+(1, 'Database Systems', 'R. Elmasri', '978-9988776655', '2025-11-05', '2025-12-05', NULL, 'Issued'),
+(4, 'Artificial Intelligence', 'S. Russell', '978-4433221100', '2025-10-15', '2025-11-15', NULL, 'Issued'),
 (5, 'Machine Learning', 'T. Mitchell', '978-2211003344', '2025-09-20', '2025-10-20', '2025-10-18', 'Returned');
 
 -- Student_Results 
@@ -106,25 +107,20 @@ VALUES
 (5, 'Arts', 55000.00, 1500.00, 1000.00, 500.00, 0.00, 1000.00, 59000.00, '2024-08-25', 'Paid');
 
 
--- Student_Attendance:
+-- Student_Attendance (Aarsee, Vedika, Awantika, Naina, Aditi):
 INSERT INTO Student_Attendance (student_id, subject_id, attendance_date, status)
 VALUES  
--- Aarsee Vadya (1)
 (1, 1, '2025-09-01', 'Present'),
 (1, 1, '2025-09-02', 'Absent'),
 (1, 4, '2025-09-01', 'Present'),
-(1, 4, '2025-09-02', 'Present'),    
-
--- Vedika Agarwal (2)
+(1, 4, '2025-09-02', 'Present'),
 (2, 2, '2025-09-01', 'Present'),
 (2, 2, '2025-09-02', 'Present'),
 (2, 4, '2025-09-01', 'Absent'),
 (2, 4, '2025-09-02', 'Present'),
 (2, 2, '2025-09-03', 'Present'),
 (2, 4, '2025-09-04', 'Absent'),
-(2, 2, '2025-09-05', 'Present');
-
--- Awantika Swati (3)
+(2, 2, '2025-09-05', 'Present'),
 (3, 3, '2025-09-01', 'Present'),
 (3, 3, '2025-09-02', 'Present'),
 (3, 5, '2025-09-01', 'Absent'),
@@ -132,9 +128,7 @@ VALUES
 (3, 3, '2025-09-03', 'Present'),
 (3, 5, '2025-09-03', 'Present'),
 (3, 3, '2025-09-04', 'Present'),
-(3, 5, '2025-09-04', 'Present');
-
--- Naina Barnawal (4)
+(3, 5, '2025-09-04', 'Present'),
 (4, 4, '2025-09-01', 'Present'),
 (4, 4, '2025-09-02', 'Present'),
 (4, 5, '2025-09-01', 'Present'),
@@ -142,9 +136,7 @@ VALUES
 (4, 4, '2025-09-03', 'Absent'),
 (4, 5, '2025-09-03', 'Present'),
 (4, 4, '2025-09-04', 'Present'),
-(4, 5, '2025-09-04', 'Present');
-
--- Aditi Kumari (5)
+(4, 5, '2025-09-04', 'Present'),
 (5, 3, '2025-09-01', 'Absent'),
 (5, 3, '2025-09-02', 'Present'),
 (5, 2, '2025-09-01', 'Present'),
@@ -154,25 +146,16 @@ VALUES
 (5, 3, '2025-09-04', 'Present'),
 (5, 2, '2025-09-04', 'Present');
 
---time table seed
-INSERT INTO Time_Table (department, subject_id, faculty_id, day_of_week, start_time, end_time, location)
+-- Class Timetable: Computer Science, Animation, Electronics, Architecture, Corporate Finance
+INSERT INTO Class_Timetable (department, subject_id, faculty_id, day_of_week, start_time, end_time, location)
 VALUES
--- 1. Subject: Computer Science (ID 4, Dept 3) taught by Dr. Emily Usher (ID 1)
 (3, 4, 1, 'Monday', '09:00:00', '10:30:00', 'Tech Room T101'),
 (3, 4, 1, 'Wednesday', '13:30:00', '15:00:00', 'Tech Room T101'),
-
--- 2. Subject: Animation (ID 1, Dept 1) taught by Dr. Henry Scott (ID 4)
 (1, 1, 4, 'Monday', '14:00:00', '15:30:00', 'Arts Studio A2'),
 (1, 1, 4, 'Thursday', '09:00:00', '10:30:00', 'Arts Studio A2'),
-
--- 3. Subject: Electronics (ID 5, Dept 3) taught by Mr. Frank Miller (ID 2)
 (3, 5, 2, 'Tuesday', '10:00:00', '11:30:00', 'Tech Lab L304'),
 (3, 5, 2, 'Thursday', '14:00:00', '15:30:00', 'Tech Lab L304'),
-
--- 4. Subject: Architecture (ID 2, Dept 1) taught by Dr. Lewis Brown (ID 5)
 (1, 2, 5, 'Tuesday', '15:00:00', '16:30:00', 'Arts Workshop W1'),
 (1, 2, 5, 'Friday', '10:00:00', '11:30:00', 'Arts Workshop W1'),
-
--- 5. Subject: Corporate Finance (ID 3, Dept 2) taught by Prof. Grace Lee (ID 3)
 (2, 3, 3, 'Wednesday', '09:30:00', '11:00:00', 'Finance Lecture F12'),
 (2, 3, 3, 'Friday', '14:30:00', '16:00:00', 'Finance Lecture F12');
