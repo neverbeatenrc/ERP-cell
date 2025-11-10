@@ -7,27 +7,39 @@ let marksData = [];
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Get faculty ID from session/URL (you'll need to pass this from Flask)
-    currentFacultyId = getFacultyIdFromSession();
-    
-    // Set today's date in attendance picker
-    document.getElementById('attendance-date').valueAsDate = new Date();
-    
-    // Load initial data
-    loadFacultyProfile();
-    loadDashboardStats();
-    
-    // Setup navigation
-    setupNavigation();
-    
-    // Setup event listeners
-    setupEventListeners();
+    // Get faculty ID from the current user session
+    getFacultyIdFromSession();
 });
 
-function getFacultyIdFromSession() {
-    // This should be set by your Flask template
-    // For now, return a default value
-    return 1; // You'll replace this with actual session data
+async function getFacultyIdFromSession() {
+    try {
+        // Fetch current user info from the API
+        const response = await fetch('/api/current-user');
+        const data = await response.json();
+        
+        if (data.success && data.user.user_role === 'Faculty') {
+            currentFacultyId = data.user.ref_id;
+            
+            // Set today's date in attendance picker
+            document.getElementById('attendance-date').valueAsDate = new Date();
+            
+            // Load initial data
+            loadFacultyProfile();
+            loadDashboardStats();
+            
+            // Setup navigation
+            setupNavigation();
+            
+            // Setup event listeners
+            setupEventListeners();
+        } else {
+            showNotification('Error: Unable to load faculty information', 'error');
+            console.error('Not a faculty user or failed to load user info');
+        }
+    } catch (error) {
+        console.error('Error fetching current user:', error);
+        showNotification('Error loading user information', 'error');
+    }
 }
 
 function setupNavigation() {

@@ -1235,6 +1235,10 @@ def faculty_dashboard_page():
 @login_required
 def get_faculty_dashboard_stats(faculty_id):
     """Get faculty dashboard statistics."""
+    # Security check: ensure faculty can only access their own stats
+    if current_user.user_role != 'Faculty' or current_user.ref_id != faculty_id:
+        return jsonify({'success': False, 'message': 'Unauthorized access'}), 403
+    
     try:
         db = get_db()
         cursor = db.cursor(dictionary=True)
@@ -1282,6 +1286,8 @@ def get_faculty_dashboard_stats(faculty_id):
         # Format time slots
         for cls in today_classes:
             cls['time_slot'] = f"{cls['start_time']} - {cls['end_time']}"
+            cls['start_time'] = str(cls['start_time'])
+            cls['end_time'] = str(cls['end_time'])
         
         # Calculate average attendance (placeholder - will implement fully)
         avg_attendance = 85  # Default placeholder
@@ -1305,6 +1311,8 @@ def get_faculty_dashboard_stats(faculty_id):
         })
     except Exception as e:
         print(f"Error getting faculty stats: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({'success': False, 'message': str(e)}), 500
 
 
